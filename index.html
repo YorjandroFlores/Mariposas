@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Para Jennifer 🦋</title>
+
+<style>
+
+body{
+margin:0;
+background:black;
+font-family:Arial;
+color:white;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+height:100vh;
+text-align:center;
+overflow:hidden;
+}
+
+/* estrellas */
+
+.star{
+position:absolute;
+width:2px;
+height:2px;
+background:white;
+animation:parpadeo 2s infinite alternate;
+}
+
+@keyframes parpadeo{
+0%{opacity:0.2}
+100%{opacity:1}
+}
+
+h1{
+color:#ff6fa5;
+font-size:28px;
+}
+
+#mensaje{
+color:#40e0d0;
+font-size:18px;
+padding:10px;
+min-height:50px;
+}
+
+/* botones */
+
+button{
+padding:12px 22px;
+border:none;
+border-radius:20px;
+background:#40e0d0;
+font-size:16px;
+cursor:pointer;
+margin-top:10px;
+}
+
+button:hover{
+background:#ff6fa5;
+color:white;
+}
+
+/* corazón */
+
+#heart{
+position:relative;
+width:240px;
+height:220px;
+margin-top:20px;
+}
+
+.butterfly{
+position:absolute;
+font-size:24px;
+opacity:0;
+transition:opacity 1s;
+animation:flotar 3s ease-in-out infinite;
+}
+
+@keyframes flotar{
+0%{transform:translateY(0)}
+50%{transform:translateY(-8px)}
+100%{transform:translateY(0)}
+}
+
+/* brillo */
+
+.brillo{
+animation:flotar 3s ease-in-out infinite, brillar 1.5s infinite alternate;
+}
+
+@keyframes brillar{
+0%{text-shadow:0 0 5px pink}
+100%{text-shadow:0 0 20px pink,0 0 30px #ff6fa5}
+}
+
+/* mensaje final */
+
+#final{
+font-size:24px;
+color:#ff6fa5;
+opacity:0;
+transition:1s;
+margin-top:40px;
+padding:10px;
+}
+
+/* carta */
+
+#carta{
+position:fixed;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+background:white;
+color:black;
+padding:25px;
+border-radius:10px;
+width:80%;
+max-width:320px;
+display:none;
+z-index:10;
+box-shadow:0 0 20px rgba(0,0,0,0.5);
+}
+
+#carta h3{
+margin-top:0;
+}
+
+</style>
+</head>
+
+<body>
+
+<h1>Feliz Cumpleaños Jennifer 🎂</h1>
+
+<p id="mensaje">
+Tengo una pequeña sorpresa para ti 🦋
+</p>
+
+<button onclick="iniciar()">Toca aquí</button>
+
+<div id="heart"></div>
+
+<div id="final">
+💖 Espero que este pequeño detalle haya logrado sacarte una sonrisa 💖
+</div>
+
+<button id="abrirCarta" onclick="mostrarCarta()" style="display:none;">
+💌 Abre esto
+</button>
+
+<div id="carta">
+
+<h3>Para Jennifer 💖</h3>
+
+<p>
+Hoy es tu cumpleaños y quería hacer algo especial para ti.
+Tal vez no sea el regalo más grande,
+pero está hecho con mucho cariño.
+
+Espero que este nuevo año de tu vida
+esté lleno de momentos felices,
+sonrisas sinceras
+y sueños que poco a poco se vayan cumpliendo.
+
+Personas como tú hacen el mundo
+un lugar un poco más bonito.
+
+Feliz cumpleaños 🎂
+</p>
+
+<button onclick="cerrarCarta()">Cerrar</button>
+
+</div>
+
+<script>
+
+/* crear estrellas */
+
+for(let i=0;i<80;i++){
+
+let star=document.createElement("div")
+
+star.className="star"
+
+star.style.left=Math.random()*100+"%"
+star.style.top=Math.random()*100+"%"
+
+star.style.animationDelay=Math.random()*3+"s"
+
+document.body.appendChild(star)
+
+}
+
+/* mensajes */
+
+let mensajes=[
+
+"Jennifer, hoy es un día muy especial ✨",
+
+"Porque hoy celebramos tu cumpleaños 🎂",
+
+"Espero que este nuevo año esté lleno de momentos felices 🌸",
+
+"Personas como tú hacen el mundo más bonito 🦋",
+
+"Tu sonrisa tiene algo especial 😊",
+
+"Y ojalá hoy recibas muchas razones para sonreír 💖"
+
+]
+
+function iniciar(){
+
+let heart=document.getElementById("heart")
+
+for(let i=0;i<20;i++){
+
+setTimeout(()=>{
+
+let b=document.createElement("div")
+
+b.className="butterfly"
+
+b.innerHTML="🦋"
+
+let angle=i*18
+
+let x=16*Math.pow(Math.sin(angle*Math.PI/180),3)
+
+let y=13*Math.cos(angle*Math.PI/180)
+      -5*Math.cos(2*angle*Math.PI/180)
+      -2*Math.cos(3*angle*Math.PI/180)
+      -Math.cos(4*angle*Math.PI/180)
+
+b.style.left=(x*6+120)+"px"
+b.style.top=(-y*6+110)+"px"
+
+heart.appendChild(b)
+
+setTimeout(()=>{
+b.style.opacity=1
+},50)
+
+},i*250)
+
+}
+
+/* mensajes */
+
+let index=0
+
+let intervalo=setInterval(()=>{
+
+document.getElementById("mensaje").innerText=mensajes[index]
+
+index++
+
+if(index>=mensajes.length){
+clearInterval(intervalo)
+}
+
+},3000)
+
+/* final */
+
+setTimeout(()=>{
+
+let mariposas=document.querySelectorAll(".butterfly")
+
+mariposas.forEach(b=>{
+b.classList.add("brillo")
+})
+
+document.getElementById("final").style.opacity=1
+
+document.getElementById("abrirCarta").style.display="block"
+
+},7000)
+
+}
+
+/* abrir carta */
+
+function mostrarCarta(){
+document.getElementById("carta").style.display="block"
+}
+
+/* cerrar carta */
+
+function cerrarCarta(){
+document.getElementById("carta").style.display="none"
+}
+
+</script>
+
+</body>
+</html>
